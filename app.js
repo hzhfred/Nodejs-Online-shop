@@ -24,7 +24,7 @@ const csrfProtection = csrf();
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'images');
+        cb(null, 'images'); // store file in images folder
     },
     filename: (req, file, cb) => {
         cb(null, new Date().toISOString() + '-' + file.originalname);
@@ -52,8 +52,8 @@ const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({extended: false}));
-// store  file of <input name="image"> in req.file
 app.use(
+    // get single file from input with name image<input name="image">  and store it in req.file.
     multer({storage: fileStorage, fileFilter: fileFilter}).single('image')
 );
 app.use(express.static(path.join(__dirname, 'public')));

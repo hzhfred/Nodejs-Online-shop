@@ -55,8 +55,6 @@ exports.postAddProduct = (req, res, next) => {
             },
             errorMessage: errors.array()[0].msg,
             allValidationErrors: errors.array()
-
-
         });
     }
 
