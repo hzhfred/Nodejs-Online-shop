@@ -1,0 +1,9 @@
+
+        <link rel="stylesheet" href="/css/forms.css">
+        <form class="search-form" action="/productSearch" method="POST" novalidate= 'true'>
+            <div class="search-bar">
+                <input type="text" name="search" id="search" value = "<%= searchWord %>">
+                <button class="btn" type="submit">Search</button>
+            </div>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>"></input>
+        </form>
