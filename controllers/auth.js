@@ -20,8 +20,8 @@ exports.getLogin = (req, res, next) => {
         pageTitle: 'Login',
         errorMessage: req.flash('error')[0],
         oldInput: {
-            email: "",
-            password: ""
+            email: "test@test.com",
+            password: "1234567"
         },
         allValidationErrors: []
     });

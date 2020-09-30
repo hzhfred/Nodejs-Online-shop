@@ -67,21 +67,17 @@ exports.getIndex = (req, res, next) => {
     if(req.query.page){
         page = Number(req.query.page);
     }
-    let totalItemNum;
+    let totalItemNum = 6;
     Product
         .find()
-        .countDocuments()
-        .then(productNum => {
-            totalItemNum = productNum;
-            return Product.find()
-                //mongodb built in function. ship # of items
-                .skip((page - 1) * ITEMS_NUM_PAGE)
-                //mongodb built in function. fetch only
-                // limited # of item from DB.
-                .limit(ITEMS_NUM_PAGE);
-
-        })
+        .sort({ field: 'asc', _id: -1 })
+                        //mongodb built in function. ship # of items
+        .skip((page - 1) * ITEMS_NUM_PAGE)
+                        //mongodb built in function. fetch only
+                        // limited # of item from DB.
+        .limit(ITEMS_NUM_PAGE)
         .then(products => {
+
             res.render('shop/index', {
                 prods: products,
                 pageTitle: 'Shop',
@@ -96,6 +92,41 @@ exports.getIndex = (req, res, next) => {
             console.log(err);
         });
 };
+
+// exports.getIndex = (req, res, next) => {
+//     let page = 1;
+//     if(req.query.page){
+//         page = Number(req.query.page);
+//     }
+//     let totalItemNum;
+//     Product
+//         .find()
+//         .countDocuments()
+//         .then(productNum => {
+//             totalItemNum = productNum;
+//             return Product.find()
+//                 //mongodb built in function. ship # of items
+//                 .skip((page - 1) * ITEMS_NUM_PAGE)
+//                 //mongodb built in function. fetch only
+//                 // limited # of item from DB.
+//                 .limit(ITEMS_NUM_PAGE);
+//
+//         })
+//         .then(products => {
+//             res.render('shop/index', {
+//                 prods: products,
+//                 pageTitle: 'Shop',
+//                 path: '/',
+//                 hasNextPage: ITEMS_NUM_PAGE * page < totalItemNum,
+//                 hasPreviousPage: page > 1,
+//                 currentPage: page,
+//                 lastPage: Math.ceil(totalItemNum / ITEMS_NUM_PAGE)
+//             });
+//         })
+//         .catch(err => {
+//             console.log(err);
+//         });
+// };
 
 exports.getCart = (req, res, next) => {
     req.user

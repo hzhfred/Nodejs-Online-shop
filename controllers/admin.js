@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const fileHelper = require('../util/file');
 const Product = require('../models/product');
 const {validationResult} = require('express-validator/check');
+const Datauri = require( 'datauri');
+const {cloudinary} = require('../util/cloudinary');
+
 
 exports.getAddProduct = (req, res, next) => {
 
@@ -49,7 +52,7 @@ exports.postAddProduct = (req, res, next) => {
             hasError: true,
             product: {
                 title: title,
-                imageUrl: imageUrl,
+                imageUrl: '',
                 price: price,
                 description: description
             },
@@ -59,7 +62,17 @@ exports.postAddProduct = (req, res, next) => {
     }
 
     const imageUrl = image.path;
+    console.log(imageUrl);
+    const webUrl = req.protocol + '://' + req.get('host');
+    console.log(webUrl);
+    const imageLink = webUrl + '/' + imageUrl;
 
+    // cloudinary.uploader.upload("images/2020-09-23T04:57:21.647Z-banana.jpg").then((result) => {
+    //     console.log(result);
+    //     return result.url;
+    // }).then(() => {
+    //
+    //     } );
 
     const product = new Product({
         title: title,
@@ -78,7 +91,77 @@ exports.postAddProduct = (req, res, next) => {
         .catch(err => {
             console.log(err);
         });
+
+
 };
+
+// exports.postAddProduct = (req, res, next) => {
+//     const title = req.body.title;
+//     const image = req.file;
+//     const price = req.body.price;
+//     const description = req.body.description;
+//     const errors = validationResult(req);
+//     console.log(image);
+//     if (!image) {
+//         return res.render('admin/edit-product', {
+//             pageTitle: 'Add Product',
+//             path: '/admin/add-product',
+//             editing: false,
+//             hasError: true,
+//             product: {
+//                 title: title,
+//                 price: price,
+//                 description: description
+//             },
+//             errorMessage: 'attached file is not an image',
+//             allValidationErrors: []
+//
+//
+//         });
+//     }
+//
+//     if (!errors.isEmpty()) {
+//         return res.render('admin/edit-product', {
+//             pageTitle: 'Add Product',
+//             path: '/admin/add-product',
+//             editing: false,
+//             hasError: true,
+//             product: {
+//                 title: title,
+//                 imageUrl: imageUrl,
+//                 price: price,
+//                 description: description
+//             },
+//             errorMessage: errors.array()[0].msg,
+//             allValidationErrors: errors.array()
+//         });
+//     }
+//
+//     const dUri = new Datauri();
+//     // const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer);
+//
+//     const imageUri = dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer).content;
+//     cloudinary.uploader.upload(imageUrl).then((result) => {
+//              const imageUrl = result.url;
+//         const product = new Product({
+//             title: title,
+//             price: price,
+//             description: description,
+//             imageUrl: imageUrl,
+//             userId: req.user
+//         });
+//         product
+//             .save()
+//             .then(result => {
+//                 // console.log(result);
+//                 console.log('Created Product');
+//                 res.redirect('/admin/products');
+//             })
+//             .catch(err => {
+//                 console.log(err);
+//             });
+//         })
+// };
 
 exports.getEditProduct = (req, res, next) => {
     const editMode = req.query.edit;

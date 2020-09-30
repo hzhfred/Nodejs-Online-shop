@@ -6,11 +6,7 @@
     <%- include('../includes/navigation.ejs') %>
 
     <main>
-                <h1 class="centered">Latest Arrivals:</h1>
-                <div class="centered" style="margin-bottom: 14px">
-                <a class="btn" href="/products">Discover More !</a>
-                </div>
-
+        <h1>Latest Arrivals:</h1>
         <% if (prods.length > 0) { %>
             <div class="grid">
                 <% for (let product of prods) { %>
@@ -36,19 +32,19 @@
                 <% } %>
             </div>
             <section class="pagination">
-                        <% if(currentPage !== 1 && (currentPage-1) !== 1){%>
-                               <a href="?page=1">1</a>
-                            <%}%>
-                         <% if(hasPreviousPage){%>
-                               <a href="?page=<%= currentPage - 1 %>"><%= currentPage - 1 %></a>
-                            <%}%>
-                            <a href="?page=<%= currentPage %>" class="active"><%= currentPage %></a>
-                           <% if(hasNextPage){%>
-                               <a href="?page=<%= currentPage + 1 %>"><%= currentPage + 1 %></a>
-                            <%}%>
-                           <% if(currentPage!== lastPage && (currentPage+1) !== lastPage){%>
-                               <a href="?page=<%= lastPage %>"><%= lastPage %></a>
-                            <%}%>
+                <% if(currentPage !== 1 && (currentPage-1) !== 1){%>
+                   <a href="/?page=1">1</a>
+                <%}%>
+                <% if(hasPreviousPage){%>
+                   <a href="/?page=<%= currentPage - 1 %>"><%= currentPage - 1 %></a>
+                <%}%>
+                <a href="/?page=<%= currentPage %>" class="active"><%= currentPage %></a>
+               <% if(hasNextPage){%>
+                   <a href="/?page=<%= currentPage + 1 %>"><%= currentPage + 1 %></a>
+                <%}%>
+               <% if(currentPage!== lastPage && (currentPage+1) !== lastPage){%>
+                   <a href="/?page=<%= lastPage %>"><%= lastPage %></a>
+                <%}%>
             </section>
         <% } else { %>
             <h1>No Products Found!</h1>

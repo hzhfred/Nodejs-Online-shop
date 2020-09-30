@@ -22,6 +22,11 @@ const store = new MongoDBStore({
 
 const csrfProtection = csrf();
 
+
+
+
+
+
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'images'); // store file in images folder
@@ -30,6 +35,8 @@ const fileStorage = multer.diskStorage({
         cb(null, new Date().toISOString() + '-' + file.originalname);
     }
 });
+// this stores file in memory and upload to cloud
+// const fileStorage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
     if (
@@ -52,6 +59,11 @@ const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({extended: false}));
+// app.use(()=> {cloudinary.config({
+//     cloud_name: API_KEYS.CLOUDINARY_CLOUD_NAME,
+//     api_key: API_KEYS.CLOUDINARY_API_KEY,
+//     api_secret: API_KEYS.CLOUDINARY_API_SECRET
+// })});
 app.use(
     // get single file from input with name image<input name="image">  and store it in req.file.
     multer({storage: fileStorage, fileFilter: fileFilter}).single('image')
