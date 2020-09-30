@@ -21,7 +21,7 @@ exports.getLogin = (req, res, next) => {
         errorMessage: req.flash('error')[0],
         oldInput: {
             email: "test@test.com",
-            password: "1234567"
+            password: "ABCDEFG1234567"
         },
         allValidationErrors: []
     });
